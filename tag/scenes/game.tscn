@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://bvscng00uu08c"]
+
+[ext_resource type="PackedScene" uid="uid://ck0dysy20m0in" path="res://scenes/map.tscn" id="1_co76t"]
+[ext_resource type="PackedScene" uid="uid://bdo6rol8oi5e3" path="res://scenes/player.tscn" id="1_epqgm"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_sdu42"]
+[ext_resource type="PackedScene" uid="uid://rq6oypynemid" path="res://scenes/mob.tscn" id="3_tbhlt"]
+[ext_resource type="PackedScene" uid="uid://cru3ag7s7tkeq" path="res://scenes/dead_menu.tscn" id="5_kwwyx"]
+
+[node name="Game" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_sdu42")
+
+[node name="Player" parent="." instance=ExtResource("1_epqgm")]
+unique_name_in_owner = true
+position = Vector2(148, 84)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(-2, -3)
+zoom = Vector2(4, 4)
+position_smoothing_speed = 10.0
+
+[node name="DeadMenu" parent="Player/Camera2D" instance=ExtResource("5_kwwyx")]
+unique_name_in_owner = true
+z_index = 1
+offset_left = -73.0
+offset_top = -80.0
+offset_right = 71.0
+offset_bottom = -31.0
+
+[node name="Map" parent="." instance=ExtResource("1_co76t")]
+position = Vector2(170, 84)
+
+[node name="Mobs" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Mob" parent="Mobs" instance=ExtResource("3_tbhlt")]
+position = Vector2(93, 76)
+
+[node name="Mob2" parent="Mobs" instance=ExtResource("3_tbhlt")]
+position = Vector2(25, 42)
+
+[node name="Mob3" parent="Mobs" instance=ExtResource("3_tbhlt")]
+position = Vector2(198, 57)
+
+[node name="Mob4" parent="Mobs" instance=ExtResource("3_tbhlt")]
+position = Vector2(186, 146)
+
+[node name="Mob5" parent="Mobs" instance=ExtResource("3_tbhlt")]
+position = Vector2(141, 229)
+
+[node name="Mob6" parent="Mobs" instance=ExtResource("3_tbhlt")]
+position = Vector2(-74, 237)
+
+[node name="Mob7" parent="Mobs" instance=ExtResource("3_tbhlt")]
+position = Vector2(-22, 206)
+
+[node name="Mob8" parent="Mobs" instance=ExtResource("3_tbhlt")]
+position = Vector2(-59, 148)
+
+[node name="Mob9" parent="Mobs" instance=ExtResource("3_tbhlt")]
+position = Vector2(31, 228)
+
+[node name="Mob10" parent="Mobs" instance=ExtResource("3_tbhlt")]
+position = Vector2(245, 238)
+
+[node name="Mob11" parent="Mobs" instance=ExtResource("3_tbhlt")]
+position = Vector2(332, 221)
+
+[node name="Mob12" parent="Mobs" instance=ExtResource("3_tbhlt")]
+position = Vector2(26, -54)
