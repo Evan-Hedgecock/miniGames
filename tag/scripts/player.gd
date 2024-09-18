@@ -4,9 +4,10 @@ const SPEED = 8000
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 var alive = true
 var health = 10000
+const START_POSITION = Vector2(0, 0)
+
 
 func _process(delta: float) -> void:
-	#kill(delta)
 	pass
 
 func _physics_process(delta: float) -> void:
@@ -40,7 +41,8 @@ func animate():
 		animated_sprite.play("idle")
 		
 func kill():
-	print(alive)
 	if alive:
 		alive = !alive
-	print("now " + str(alive))
+		
+func reset():
+	set_global_position(START_POSITION)

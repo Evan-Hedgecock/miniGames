@@ -4,6 +4,8 @@ extends CharacterBody2D
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 const SPEED = 2000
+var rng = RandomNumberGenerator.new()
+
 
 func _physics_process(delta: float) -> void:
 	var collider = get_last_slide_collision()
@@ -36,3 +38,12 @@ func animate():
 	else:
 		animated_sprite.play("idle")
 		
+func reset():
+	var randomizing = true
+	while randomizing:
+		var startX = rng.randi_range(-250, 250)
+		var startY = rng.randi_range(-250, 250)
+		if startX >= 12 || startX <= -12 && startY >= 12 || startY <= -12:
+			randomizing = false
+			var start_position = Vector2(startX, startY)
+			set_global_position(start_position)
