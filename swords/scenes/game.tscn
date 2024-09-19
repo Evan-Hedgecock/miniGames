@@ -16,7 +16,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Player" parent="." instance=ExtResource("2_n5lrs")]
 unique_name_in_owner = true
-position = Vector2(217, 136)
+position = Vector2(32, 256)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
