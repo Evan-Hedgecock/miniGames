@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://8aaf2g24aqek"]
+
+[ext_resource type="Script" path="res://scripts/world.gd" id="1_hum0f"]
+[ext_resource type="PackedScene" uid="uid://7k0q7xu6lxk3" path="res://scenes/player.tscn" id="2_ad2eh"]
+[ext_resource type="PackedScene" uid="uid://cp4xsn4ddtmkl" path="res://scenes/ground.tscn" id="2_pc3yg"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_hum0f")
+
+[node name="Boundaries" type="StaticBody2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="Ground" parent="Boundaries" instance=ExtResource("2_pc3yg")]
+
+[node name="Polygon2D" type="Polygon2D" parent="Boundaries/Ground"]
+
+[node name="Player" parent="." instance=ExtResource("2_ad2eh")]
+position = Vector2(0, 8)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(0, -24)
+zoom = Vector2(4, 4)

@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://dt8ddsquqpirj"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_6f650"]
+[ext_resource type="Texture2D" uid="uid://i1kmxvc1qm4j" path="res://assets/Legacy-Fantasy - High Forest 2.3/Background/Background.png" id="1_en85m"]
+[ext_resource type="PackedScene" uid="uid://cuickiv5rnkyx" path="res://scenes/player.tscn" id="2_n5lrs"]
+[ext_resource type="PackedScene" uid="uid://dfpbda64g17la" path="res://scenes/landing_zone.tscn" id="4_p8r3o"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_6f650")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_en85m")
+metadata/_edit_use_anchors_ = true
+
+[node name="Player" parent="." instance=ExtResource("2_n5lrs")]
+unique_name_in_owner = true
+position = Vector2(217, 136)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(0, 0, 0, 272, 64, 272, 128, 248, 128, 192, 192, 192, 192, 256, 256, 256, 256, 224, 320, 224, 384, 168, 480, 168, 480, 0, 552, 0, 560, 384, 480, 384, -64, 384, -64, 320, -64, -64, 552, -64, 552, 0, 480, 0)
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D/CollisionPolygon2D"]
+
+[node name="LandingZone" parent="." instance=ExtResource("4_p8r3o")]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LandingZone"]
+polygon = PackedVector2Array(0, 256, 0, 272, 64, 272, 128, 248, 128, 232, 64, 256)
+
+[node name="LandingZone2" parent="." instance=ExtResource("4_p8r3o")]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LandingZone2"]
+polygon = PackedVector2Array(192, 240, 192, 256, 256, 256, 256, 240)
+
+[node name="LandingZone3" parent="." instance=ExtResource("4_p8r3o")]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LandingZone3"]
+polygon = PackedVector2Array(256, 208, 256, 224, 320, 224, 384, 168, 480, 168, 480, 152, 384, 152, 320, 208)

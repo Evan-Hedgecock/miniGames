@@ -12,7 +12,9 @@ func _physics_process(delta: float) -> void:
 	if collider:
 		if collider.get_collider() == player:
 			movement(0)
-			player.kill()
+			if player.alive:
+				player.kill()
+				print("killed player")
 		else:
 			movement(-delta)
 	else:

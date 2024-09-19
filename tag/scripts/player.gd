@@ -1,7 +1,10 @@
 extends CharacterBody2D
 
 const SPEED = 8000
+
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var dead_menu: Label = %DeadMenu
+
 var alive = true
 var health = 10000
 const START_POSITION = Vector2(0, 0)
@@ -12,9 +15,11 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	if alive:
+		print("I'm alive = " + str(alive))
 		movement(delta)
 		animate()
 	else:
+		print("I'm alive = " + str(alive))
 		animate()
 		
 func movement(delta):
@@ -42,7 +47,8 @@ func animate():
 		
 func kill():
 	if alive:
-		alive = !alive
+		alive = !alive	
 		
 func reset():
 	set_global_position(START_POSITION)
+	alive = true

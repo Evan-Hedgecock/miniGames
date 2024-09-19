@@ -1,23 +1,18 @@
 [gd_scene format=3 uid="uid://cru3ag7s7tkeq"]
 
-[node name="DeadMenu" type="BoxContainer"]
-offset_left = -72.0
-offset_top = -26.0
-offset_right = 72.0
-offset_bottom = 23.0
-alignment = 1
-
-[node name="Label" type="Label" parent="."]
-layout_mode = 2
-text = "You Died ):
-Click to play again!"
+[node name="Label" type="Label"]
+offset_left = -51.0
+offset_top = -24.0
+offset_right = 63.0
+offset_bottom = 25.0
+text = "You died ):
+Click to restart"
 horizontal_alignment = 1
-justification_flags = 162
 
-[node name="ColorRect" type="ColorRect" parent="Label"]
+[node name="ColorRect" type="ColorRect" parent="."]
 z_index = -1
 layout_mode = 0
 offset_left = -2.0
-offset_right = 150.0
-offset_bottom = 55.0
+offset_right = 145.0
+offset_bottom = 53.0
 color = Color(0, 0, 0, 1)
