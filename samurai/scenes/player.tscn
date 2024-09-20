@@ -1,11 +1,25 @@
-[gd_scene load_steps=34 format=3 uid="uid://t0r1cvcjwoh5"]
+[gd_scene load_steps=41 format=3 uid="uid://t0r1cvcjwoh5"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_cxr1b"]
 [ext_resource type="Texture2D" uid="uid://wgxowyyyixst" path="res://assets/FREE_Samurai 2D Pixel Art/Sprites/IDLE.png" id="1_xhcs1"]
+[ext_resource type="Script" path="res://PlayerMovementData.gd" id="2_ghrb4"]
 [ext_resource type="Texture2D" uid="uid://evt0ww0lukdc" path="res://assets/FREE_Samurai 2D Pixel Art/Sprites/RUN.png" id="2_jjapd"]
-[ext_resource type="Resource" uid="uid://ca2og5xekvbyh" path="res://DefaultMovement.tres" id="2_jolvs"]
 [ext_resource type="Texture2D" uid="uid://dmc7yh7samur7" path="res://assets/FREE_Samurai 2D Pixel Art/Sprites/ATTACK 1.png" id="3_ju7r2"]
+[ext_resource type="Texture2D" uid="uid://cqfufyb2bgxdp" path="res://assets/FREE_Samurai 2D Pixel Art/Sprites/Double_Jump.png" id="4_3suei"]
 [ext_resource type="Texture2D" uid="uid://bx5e5v774g72" path="res://assets/FREE_Samurai 2D Pixel Art/Sprites/JUMP.png" id="5_6c04y"]
+[ext_resource type="PackedScene" uid="uid://4vfnex186j2u" path="res://scenes/sword.tscn" id="8_ftcrg"]
+
+[sub_resource type="Resource" id="Resource_yp34l"]
+script = ExtResource("2_ghrb4")
+speed = 200
+jump_velocity = -320
+gravity = 820
+acceleration = 60
+friction = 30
+air_acceleration = 30
+air_resistance = 50
+double_jump = 0.8
+facing_direction = 1
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ddh3p"]
 atlas = ExtResource("3_ju7r2")
@@ -26,6 +40,22 @@ region = Rect2(279, 0, 93, 112)
 [sub_resource type="AtlasTexture" id="AtlasTexture_jei33"]
 atlas = ExtResource("3_ju7r2")
 region = Rect2(372, 0, 93, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h12gt"]
+atlas = ExtResource("4_3suei")
+region = Rect2(0, 0, 96, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ua28i"]
+atlas = ExtResource("4_3suei")
+region = Rect2(96, 0, 96, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kir8o"]
+atlas = ExtResource("4_3suei")
+region = Rect2(192, 0, 96, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hxxdl"]
+atlas = ExtResource("4_3suei")
+region = Rect2(288, 0, 96, 112)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jn4vb"]
 atlas = ExtResource("1_xhcs1")
@@ -131,6 +161,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_h12gt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ua28i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kir8o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hxxdl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hxxdl")
+}],
+"loop": true,
+"name": &"double_jump",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_jn4vb")
 }, {
 "duration": 1.0,
@@ -209,17 +259,25 @@ animations = [{
 size = Vector2(12, 33)
 
 [node name="Player" type="CharacterBody2D"]
-floor_snap_length = 2.0
+floor_constant_speed = true
+floor_snap_length = 3.0
 script = ExtResource("1_cxr1b")
-movement_data = ExtResource("2_jolvs")
+movement_data = SubResource("Resource_yp34l")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -50)
 sprite_frames = SubResource("SpriteFrames_qtgcs")
-animation = &"jump"
+animation = &"attack"
 autoplay = "idle"
-frame = 6
-frame_progress = 1.0
+frame = 2
+
+[node name="SwordLocation" type="Marker2D" parent="AnimatedSprite2D"]
+unique_name_in_owner = true
+position = Vector2(20, 43)
+
+[node name="Sword" parent="AnimatedSprite2D/SwordLocation" instance=ExtResource("8_ftcrg")]
+unique_name_in_owner = true
+position = Vector2(-13.69, 11.7296)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -16.5)
@@ -228,3 +286,16 @@ shape = SubResource("RectangleShape2D_k61fn")
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(0, -38)
 zoom = Vector2(2, 2)
+
+[node name="DoubleJumpTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
+[node name="AttackTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.4
+one_shot = true
+
+[connection signal="attack_signal" from="." to="AnimatedSprite2D/SwordLocation/Sword" method="_on_player_attack_signal"]
+[connection signal="change_direction" from="." to="AnimatedSprite2D/SwordLocation/Sword" method="_on_player_change_direction"]
