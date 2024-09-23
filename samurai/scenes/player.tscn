@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://t0r1cvcjwoh5"]
+[gd_scene load_steps=42 format=3 uid="uid://t0r1cvcjwoh5"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_cxr1b"]
 [ext_resource type="Texture2D" uid="uid://wgxowyyyixst" path="res://assets/FREE_Samurai 2D Pixel Art/Sprites/IDLE.png" id="1_xhcs1"]
@@ -8,17 +8,18 @@
 [ext_resource type="Texture2D" uid="uid://cqfufyb2bgxdp" path="res://assets/FREE_Samurai 2D Pixel Art/Sprites/Double_Jump.png" id="4_3suei"]
 [ext_resource type="Texture2D" uid="uid://bx5e5v774g72" path="res://assets/FREE_Samurai 2D Pixel Art/Sprites/JUMP.png" id="5_6c04y"]
 [ext_resource type="PackedScene" uid="uid://4vfnex186j2u" path="res://scenes/sword.tscn" id="8_ftcrg"]
+[ext_resource type="PackedScene" uid="uid://dwxsck0emxkcd" path="res://scenes/health_bar.tscn" id="9_7r5ua"]
 
 [sub_resource type="Resource" id="Resource_yp34l"]
 script = ExtResource("2_ghrb4")
-speed = 200
-jump_velocity = -320
+speed = 170
+jump_velocity = -300
 gravity = 820
-acceleration = 60
+acceleration = 50
 friction = 30
 air_acceleration = 30
 air_resistance = 50
-double_jump = 0.8
+double_jump = 0.85
 facing_direction = 1
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ddh3p"]
@@ -225,6 +226,11 @@ animations = [{
 "name": &"jump",
 "speed": 6.0
 }, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_85n6n")
@@ -255,33 +261,34 @@ animations = [{
 "speed": 12.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_k61fn"]
-size = Vector2(12, 33)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ki3wy"]
+radius = 7.0
+height = 33.0
 
 [node name="Player" type="CharacterBody2D"]
+collision_mask = 17
 floor_constant_speed = true
 floor_snap_length = 3.0
 script = ExtResource("1_cxr1b")
 movement_data = SubResource("Resource_yp34l")
 
+[node name="SwordLocation" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -16)
+
+[node name="Sword" parent="SwordLocation" instance=ExtResource("8_ftcrg")]
+position = Vector2(6, 17)
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -50)
 sprite_frames = SubResource("SpriteFrames_qtgcs")
-animation = &"attack"
+animation = &"new_animation"
 autoplay = "idle"
-frame = 2
-
-[node name="SwordLocation" type="Marker2D" parent="AnimatedSprite2D"]
-unique_name_in_owner = true
-position = Vector2(20, 43)
-
-[node name="Sword" parent="AnimatedSprite2D/SwordLocation" instance=ExtResource("8_ftcrg")]
-unique_name_in_owner = true
-position = Vector2(-13.69, 11.7296)
+speed_scale = 0.8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -16.5)
-shape = SubResource("RectangleShape2D_k61fn")
+shape = SubResource("CapsuleShape2D_ki3wy")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(0, -38)
@@ -297,5 +304,12 @@ unique_name_in_owner = true
 wait_time = 0.4
 one_shot = true
 
-[connection signal="attack_signal" from="." to="AnimatedSprite2D/SwordLocation/Sword" method="_on_player_attack_signal"]
-[connection signal="change_direction" from="." to="AnimatedSprite2D/SwordLocation/Sword" method="_on_player_change_direction"]
+[node name="HealthBar" parent="." instance=ExtResource("9_7r5ua")]
+offset_left = 3.0
+offset_top = -34.0
+offset_right = 43.0
+offset_bottom = 6.0
+
+[connection signal="attack_signal" from="." to="SwordLocation/Sword" method="_on_player_attack_signal"]
+[connection signal="damaged" from="." to="HealthBar" method="_on_player_damaged"]
+[connection signal="deal_damage" from="SwordLocation/Sword" to="." method="_on_sword_deal_damage"]

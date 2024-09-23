@@ -8,6 +8,7 @@ extends CharacterBody2D
 @onready var sword_location: Marker2D = %SwordLocation
 
 const MAX_COYOTE_FRAMES = 2
+const MAX_HEALTH: float = 500.0
 
 # Player states: GO TO manage_player_states() to update
 var sprinting
@@ -20,10 +21,12 @@ var coyote_frames = MAX_COYOTE_FRAMES
 var just_left_ledge
 var landed
 var attacking
-
+var health: float = MAX_HEALTH
+var dead = false
 
 signal attack_signal
-signal change_direction(direction)
+signal deal_damage(damage)
+signal damaged(health_percent)
 
 func _physics_process(delta: float) -> void:
 	var input_axis = Input.get_axis("left", "right")
@@ -45,6 +48,9 @@ func process_gravity(delta):
 	velocity.y += movement_data.gravity * delta
 
 func process_movement(input_axis):
+	if dead:
+		velocity.x = 0
+		return
 	set_sprint()
 	if is_on_floor():
 		if input_axis:
@@ -70,6 +76,8 @@ func acceleration(input_axis):
 	velocity.x = move_toward(velocity.x, input_axis * movement_data.speed, movement_data.acceleration)
 
 func process_jump():
+	if dead:
+		return
 	jump()
 	coyote_jump()
 	double_jump()
@@ -97,7 +105,10 @@ func coyote_jump():
 		velocity.y = movement_data.jump_velocity
 		
 func process_animations(input_axis):
+	if dead:
+		return
 	if attacking:
+		sprint_frames()
 		play_attack()
 		return
 	if jumping:
@@ -114,9 +125,11 @@ func play_run():
 	animated_sprite_2d.play("run")
 	
 func play_idle():
+	sprint_frames()
 	animated_sprite_2d.play("idle")
 
 func play_jump():
+	sprint_frames()
 	animated_sprite_2d.play("jump")
 
 func play_double_jump():
@@ -132,7 +145,7 @@ func flip_player(input_axis):
 func manage_player_states(input_axis):
 	if input_axis:
 		flip_player(input_axis)
-	#position_sword()
+	position_sword()
 	if is_on_floor():
 		reset_jump()
 	else:
@@ -165,9 +178,11 @@ func manage_player_states(input_axis):
 
 func set_sprint():
 	if sprinting:
+		sprint_frames()
 		set_sprint_values()
 	else:
-		set_walk_values()		
+		walk_frames()
+		set_walk_values()
 func reset_jump():
 	coyote_frames = MAX_COYOTE_FRAMES
 	can_jump = true
@@ -195,32 +210,41 @@ func reset_connections(connections):
 		
 func position_sword():
 	if movement_data.facing_direction == 1:
-		sword_location.position = Vector2(22, 43)
-		sword_location.rotation = 0
+		sword_location.rotation_degrees = 0
 	elif movement_data.facing_direction == -1:
-		sword_location.position = Vector2(-40, 43)
-		sword_location.rotation = 0
+		sword_location.rotation_degrees = 180
 	else:
 		print("Uh oh! movement_data.facing_direction returned an unexpected value: func position_sword()")
 		
-#func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
-	#pass # Replace with function body.
+func sprint_frames():
+	animated_sprite_2d.speed_scale = 0.8
+
+func walk_frames():
+	animated_sprite_2d.speed_scale = 0.8
+
 
 func manage_player_direction(input_axis):
 	if movement_data.facing_direction != input_axis and input_axis != 0:
 		movement_data.facing_direction = input_axis
-		change_direction.emit(movement_data.facing_direction)
+		
+func take_damage(damage):
+	health -= damage
+	damaged.emit((health / MAX_HEALTH))
+	if health <= 0:
+		killed()
+	
+func killed():
+	dead = true
 
 func set_sprint_values():
-	movement_data.speed = 220
-	movement_data.jump_velocity = -330
-	movement_data.acceleration = 80
-	movement_data.friction = 40
-	movement_data.air_acceleration = 40
-
+	movement_data = load("res://SprintMovement.tres")
+	
 func set_walk_values():
-	movement_data.speed = 200
-	movement_data.jump_velocity = -320
-	movement_data.acceleration = 60
-	movement_data.friction = 30
-	movement_data.air_acceleration = 30
+	movement_data = load("res://DefaultMovement.tres")
+
+func _on_sword_deal_damage(damage: Variant, body: Variant) -> void:
+	deal_damage.emit(damage)
+
+
+func _on_skeleton_deal_damage(damage: Variant) -> void:
+	take_damage(damage)

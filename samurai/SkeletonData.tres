@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="SkeletonData" load_steps=2 format=3 uid="uid://dh6pxutt3yuei"]
+
+[ext_resource type="Script" path="res://SkeletonData.gd" id="1_xp3hv"]
+
+[resource]
+script = ExtResource("1_xp3hv")
+max_health = 100.0
+speed = 60.0
+acceleration = 30.0
+gravity = 840.0
+attack_range = 30.0
+dash_distance = 225.0
+dash_range = 80.0
+knockback = 300
+can_detect_player = false
+walking = false
+idling = true
+attacking = false
+hurting = false
+engaging_player = false
+engaged = false
+dashing = false
+facing_direction = 1
+disengaging = false
+can_dash = true
+dead = false

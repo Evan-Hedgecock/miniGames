@@ -4,11 +4,12 @@
 
 [resource]
 script = ExtResource("1_qohc4")
-speed = 200
+speed = 130
 jump_velocity = -320
 gravity = 820
-acceleration = 60
+acceleration = 50
 friction = 30
 air_acceleration = 30
 air_resistance = 50
-double_jump = 0.8
+double_jump = 0.85
+facing_direction = 1

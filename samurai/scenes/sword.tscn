@@ -1,22 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://4vfnex186j2u"]
+[gd_scene load_steps=4 format=3 uid="uid://4vfnex186j2u"]
 
 [ext_resource type="Script" path="res://scripts/sword.gd" id="1_d62df"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tkinp"]
-size = Vector2(27, 11.5)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_8gkr1"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_pqore"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_6nw3m"]
+size = Vector2(40.5, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4sonw"]
-size = Vector2(14, 8)
+size = Vector2(0, 1)
 
 [node name="Sword" type="AnimatableBody2D"]
 collision_layer = 0
-collision_mask = 0
+collision_mask = 2
 sync_to_physics = false
 script = ExtResource("1_d62df")
 
@@ -26,27 +20,11 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(0, -28)
+position = Vector2(20.75, -16)
 shape = SubResource("RectangleShape2D_tkinp")
 debug_color = Color(0.891291, 2.71939e-06, 5.77569e-07, 0.419608)
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(13, -24)
-shape = SubResource("CircleShape2D_8gkr1")
-debug_color = Color(0.891291, 2.71939e-06, 5.77569e-07, 0.419608)
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(23, -18)
-shape = SubResource("CircleShape2D_pqore")
-debug_color = Color(0.891291, 2.71939e-06, 5.77569e-07, 0.419608)
-
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(30, -8)
-rotation = 1.5708
-shape = SubResource("CircleShape2D_6nw3m")
-debug_color = Color(0.891291, 2.71939e-06, 5.77569e-07, 0.419608)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-6, -18)
+position = Vector2(0, -15.5)
 shape = SubResource("RectangleShape2D_4sonw")
 debug_color = Color(3.56168e-06, 0.59406, 0.733173, 0.42)

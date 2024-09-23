@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwxsck0emxkcd"]
+
+[ext_resource type="Script" path="res://scripts/health_bar.gd" id="1_4yios"]
+
+[node name="HealthBar" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1.0
+offset_right = 41.0
+offset_bottom = 40.0
+script = ExtResource("1_4yios")
+
+[node name="Damage" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -27.0
+offset_top = -6.0
+offset_right = 23.0
+offset_bottom = -5.0
+color = Color(1, 0, 0, 1)
+
+[node name="Health" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -27.0
+offset_top = -6.0
+offset_right = 23.0
+offset_bottom = -5.0
+color = Color(0, 1, 0, 1)

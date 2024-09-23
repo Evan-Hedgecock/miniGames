@@ -4,11 +4,12 @@
 
 [resource]
 script = ExtResource("1_0jcrt")
-speed = 220
+speed = 200
 jump_velocity = -330
 gravity = 820
-acceleration = 80
+acceleration = 60
 friction = 40
 air_acceleration = 40
 air_resistance = 50
-double_jump = 0.8
+double_jump = 0.85
+facing_direction = 1

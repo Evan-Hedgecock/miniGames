@@ -1,26 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://bcyh5jedv2l7q"]
+[gd_scene load_steps=6 format=3 uid="uid://bcyh5jedv2l7q"]
 
 [ext_resource type="PackedScene" uid="uid://t0r1cvcjwoh5" path="res://scenes/player.tscn" id="1_2r126"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_kojkd"]
+[ext_resource type="Resource" uid="uid://bp2267urnjukc" path="res://DefaultMovement.tres" id="3_3jytv"]
 [ext_resource type="PackedScene" uid="uid://dk0b1bif847sv" path="res://scenes/skeleton.tscn" id="3_bh0v8"]
+[ext_resource type="PackedScene" uid="uid://qr25wtqdlwiq" path="res://scenes/level_1.tscn" id="5_1d7ac"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_kojkd")
 
+[node name="level 1" parent="." instance=ExtResource("5_1d7ac")]
+position = Vector2(1, -1)
+
 [node name="Player" parent="." instance=ExtResource("1_2r126")]
-position = Vector2(472, -1)
-
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 unique_name_in_owner = true
-polygon = PackedVector2Array(-36, 0, 74, -9, 117, -16, 192, -16, 228, -7, 283, 2, 320, 16, 384, 16, 448, 0, 512, 0, 512, -320, 576, -320, 576, 128, -104, 128, -104, -320, -32, -320)
-
-[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D/CollisionPolygon2D"]
-unique_name_in_owner = true
+position = Vector2(23, -13)
+movement_data = ExtResource("3_3jytv")
 
 [node name="Skeletons" type="Node" parent="."]
 
 [node name="Skeleton" parent="Skeletons" instance=ExtResource("3_bh0v8")]
-position = Vector2(154, -16)
-script = null
+unique_name_in_owner = true
+position = Vector2(782, -55)
+
+[connection signal="attack_signal" from="Player" to="Skeletons/Skeleton" method="_on_player_attack_signal"]
+[connection signal="deal_damage" from="Player" to="Skeletons/Skeleton" method="_on_player_deal_damage"]
+[connection signal="deal_damage" from="Skeletons/Skeleton" to="Player" method="_on_skeleton_deal_damage"]
