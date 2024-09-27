@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://b0fufbhqeynco"]
+[gd_scene load_steps=56 format=3 uid="uid://b0fufbhqeynco"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_h5rhl"]
 [ext_resource type="Texture2D" uid="uid://dsd6egv2eyeh5" path="res://assets/adventurer-1.3-Sheet.png" id="1_ynhtk"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://states/PlayerFalling.gd" id="7_nj7om"]
 [ext_resource type="Script" path="res://states/PlayerJumping.gd" id="8_b51qv"]
 [ext_resource type="Script" path="res://PlayerAttacking.gd" id="9_1nwo2"]
+[ext_resource type="Script" path="res://states/PlayerAirAttack.gd" id="11_2luc4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jfhc8"]
 atlas = ExtResource("1_ynhtk")
@@ -123,22 +124,6 @@ region = Rect2(0, 74, 50, 37)
 atlas = ExtResource("1_ynhtk")
 region = Rect2(50, 74, 50, 37)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_uif7n"]
-atlas = ExtResource("1_ynhtk")
-region = Rect2(100, 74, 50, 37)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_abemp"]
-atlas = ExtResource("1_ynhtk")
-region = Rect2(150, 74, 50, 37)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_v5f8i"]
-atlas = ExtResource("1_ynhtk")
-region = Rect2(200, 74, 50, 37)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_edbfa"]
-atlas = ExtResource("1_ynhtk")
-region = Rect2(250, 74, 50, 37)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_eoks7"]
 atlas = ExtResource("1_ynhtk")
 region = Rect2(0, 37, 50, 37)
@@ -212,6 +197,25 @@ animations = [{
 "speed": 12.0
 }, {
 "frames": [{
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_2thp1")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_1jeib")
+}],
+"loop": true,
+"name": &"attack2_end",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_ot3gy")
+}],
+"loop": true,
+"name": &"attack2_start",
+"speed": 5.0
+}, {
+"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_6ij7i")
 }, {
@@ -235,15 +239,15 @@ animations = [{
 "speed": 12.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_bqyq1")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_sbnu6")
 }],
 "loop": true,
 "name": &"falling",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -263,29 +267,17 @@ animations = [{
 "speed": 6.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_l5msw")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_glci6")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_dvpa6")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_qk1ow")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uif7n")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_abemp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_v5f8i")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_edbfa")
 }],
 "loop": true,
 "name": &"jump",
@@ -359,6 +351,59 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0.785397]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatedSprite2D:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_cem0m"]
+resource_name = "air_attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5708]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"attack2_start"],
+"method": &"play"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D/Hitbox/CollisionShape2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_xkypg"]
@@ -481,9 +526,40 @@ tracks/2/keys = {
 "values": [true, false]
 }
 
+[sub_resource type="Animation" id="Animation_1npf6"]
+resource_name = "air_attack_landing"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0.066986),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"attack2_end"],
+"method": &"play"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ou206"]
 _data = {
 "RESET": SubResource("Animation_3qdbs"),
+"air_attack": SubResource("Animation_cem0m"),
+"air_attack_landing": SubResource("Animation_1npf6"),
 "attack1": SubResource("Animation_xkypg"),
 "attack2": SubResource("Animation_nc822"),
 "attack3": SubResource("Animation_dubm7")
@@ -491,15 +567,14 @@ _data = {
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(0, -18)
+rotation = -0.00026948
 script = ExtResource("1_h5rhl")
 movement_data = ExtResource("2_olcae")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_2ucnw")
-animation = &"attack3"
+animation = &"attack2"
 autoplay = "run"
-frame = 4
-frame_progress = 0.0211299
 
 [node name="Hitbox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("4_prxva")
@@ -512,7 +587,6 @@ shape = SubResource("CapsuleShape2D_dslkg")
 debug_color = Color(1, 0, 0, 0.419608)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0, 3)
 shape = SubResource("CapsuleShape2D_i0nky")
 
@@ -545,7 +619,7 @@ player = NodePath("../..")
 movement_data = ExtResource("2_olcae")
 
 [node name="JumpTimer" type="Timer" parent="FiniteStateMachine/Jumping"]
-wait_time = 0.3
+wait_time = 0.5
 one_shot = true
 
 [node name="Attacking" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("sprite", "player")]
@@ -568,6 +642,20 @@ one_shot = true
 
 [node name="Attack3" type="Timer" parent="FiniteStateMachine/Attacking"]
 wait_time = 0.6
+one_shot = true
+
+[node name="AirAttack" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("sprite", "player")]
+script = ExtResource("11_2luc4")
+sprite = NodePath("../../AnimatedSprite2D")
+player = NodePath("../..")
+movement_data = ExtResource("2_olcae")
+
+[node name="ComboBuffer" type="Timer" parent="FiniteStateMachine/AirAttack"]
+wait_time = 0.15
+one_shot = true
+
+[node name="ComboDash" type="Timer" parent="FiniteStateMachine/AirAttack"]
+wait_time = 0.4
 one_shot = true
 
 [node name="HitBoxAnimations" type="AnimationPlayer" parent="."]

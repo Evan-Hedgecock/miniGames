@@ -5,6 +5,10 @@ func Enter():
 	sprite.play("falling")
 
 func Update(_delta: float):
+	if Input.is_action_just_pressed("click"):
+		Exit()
+		change_state.emit(self, "AirAttack")
+	
 	if player.is_on_floor():
 		Exit()
 		change_state.emit(self, "Idle")
@@ -13,4 +17,4 @@ func Update(_delta: float):
 	player.flip_sprite()
 
 func Exit():
-	pass
+	sprite.stop()

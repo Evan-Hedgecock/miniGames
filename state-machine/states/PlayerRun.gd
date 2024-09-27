@@ -20,7 +20,6 @@ func Update(delta: float):
 		change_state.emit(self, "Jumping")
 		
 	player.ground_movement()		
-	player.flip_sprite()
 	
 	if player.velocity.x == 0:
 		Exit()
