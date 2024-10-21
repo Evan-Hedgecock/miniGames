@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://b0fufbhqeynco"]
+[gd_scene load_steps=57 format=3 uid="uid://b0fufbhqeynco"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_h5rhl"]
 [ext_resource type="Texture2D" uid="uid://dsd6egv2eyeh5" path="res://assets/adventurer-1.3-Sheet.png" id="1_ynhtk"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://states/PlayerJumping.gd" id="8_b51qv"]
 [ext_resource type="Script" path="res://PlayerAttacking.gd" id="9_1nwo2"]
 [ext_resource type="Script" path="res://states/PlayerAirAttack.gd" id="11_2luc4"]
+[ext_resource type="AudioStream" uid="uid://ben8wj55yk2ik" path="res://assets/slash2.wav" id="12_45ugw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jfhc8"]
 atlas = ExtResource("1_ynhtk")
@@ -406,6 +407,35 @@ tracks/2/keys = {
 "values": [true]
 }
 
+[sub_resource type="Animation" id="Animation_1npf6"]
+resource_name = "air_attack_landing"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0.066986),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"attack2_end"],
+"method": &"play"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_xkypg"]
 resource_name = "HitBox Attack"
 length = 0.43
@@ -526,35 +556,6 @@ tracks/2/keys = {
 "values": [true, false]
 }
 
-[sub_resource type="Animation" id="Animation_1npf6"]
-resource_name = "air_attack_landing"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(0.066986),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [&"attack2_end"],
-"method": &"play"
-}]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ou206"]
 _data = {
 "RESET": SubResource("Animation_3qdbs"),
@@ -573,7 +574,7 @@ movement_data = ExtResource("2_olcae")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_2ucnw")
-animation = &"attack2"
+animation = &"idle"
 autoplay = "run"
 
 [node name="Hitbox" type="Area2D" parent="AnimatedSprite2D"]
@@ -587,6 +588,7 @@ shape = SubResource("CapsuleShape2D_dslkg")
 debug_color = Color(1, 0, 0, 0.419608)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 3)
 shape = SubResource("CapsuleShape2D_i0nky")
 
@@ -663,3 +665,7 @@ unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_ou206")
 }
+
+[node name="Attack1Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_45ugw")
+bus = &"Attack"

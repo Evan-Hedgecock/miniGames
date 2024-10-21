@@ -1,0 +1,95 @@
+[gd_scene load_steps=15 format=3 uid="uid://bycjj8xdha1ml"]
+
+[ext_resource type="Script" path="res://scripts/Enemy.gd" id="1_8r72h"]
+[ext_resource type="Texture2D" uid="uid://cpq7o7f84c48h" path="res://assets/Skeletons_Free_Pack/Skeleton_Sword/Skeleton_White/Skeleton_Without_VFX/Skeleton_01_White_Idle.png" id="1_l0i3k"]
+[ext_resource type="Script" path="res://scripts/Hurtbox.gd" id="2_i4kgq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ydj6j"]
+atlas = ExtResource("1_l0i3k")
+region = Rect2(0, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g21ip"]
+atlas = ExtResource("1_l0i3k")
+region = Rect2(96, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tc1y4"]
+atlas = ExtResource("1_l0i3k")
+region = Rect2(192, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5d68n"]
+atlas = ExtResource("1_l0i3k")
+region = Rect2(288, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0a2dh"]
+atlas = ExtResource("1_l0i3k")
+region = Rect2(384, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hdh6a"]
+atlas = ExtResource("1_l0i3k")
+region = Rect2(480, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ky0dd"]
+atlas = ExtResource("1_l0i3k")
+region = Rect2(576, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_awk0o"]
+atlas = ExtResource("1_l0i3k")
+region = Rect2(672, 0, 96, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vr055"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ydj6j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g21ip")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tc1y4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5d68n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0a2dh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hdh6a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ky0dd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_awk0o")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bq52g"]
+size = Vector2(18, 46)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t3e6u"]
+radius = 13.0
+height = 48.0
+
+[node name="Skeleton" type="CharacterBody2D"]
+script = ExtResource("1_8r72h")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(3, -32)
+sprite_frames = SubResource("SpriteFrames_vr055")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -23)
+shape = SubResource("RectangleShape2D_bq52g")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("2_i4kgq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -23)
+shape = SubResource("CapsuleShape2D_t3e6u")
+debug_color = Color(1, 0.133333, 0.152941, 0.419608)

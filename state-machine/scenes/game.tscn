@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://k6k37erj3h4j"]
+[gd_scene load_steps=4 format=3 uid="uid://k6k37erj3h4j"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_wyli5"]
 [ext_resource type="PackedScene" uid="uid://b0fufbhqeynco" path="res://scenes/player.tscn" id="2_7badf"]
+[ext_resource type="PackedScene" uid="uid://bycjj8xdha1ml" path="res://scenes/skeleton.tscn" id="3_jg1yv"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_wyli5")
@@ -19,3 +20,6 @@ zoom = Vector2(2.5, 2.5)
 
 [node name="Player" parent="." instance=ExtResource("2_7badf")]
 position = Vector2(-11, 582)
+
+[node name="Skeleton" parent="." instance=ExtResource("3_jg1yv")]
+position = Vector2(137, 614)

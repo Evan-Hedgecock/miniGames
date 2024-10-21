@@ -6,6 +6,7 @@ class_name PlayerAttacking
 @onready var attack_2: Timer = $Attack2
 @onready var attack_3: Timer = $Attack3
 @onready var animations: AnimationPlayer = %HitBoxAnimations
+@onready var attack_1_sound: AudioStreamPlayer2D = $"../../Attack1Sound"
 
 var current_phase
 enum phase {
@@ -18,6 +19,7 @@ enum phase {
 var combo = 0
 
 func Enter():
+	attack_1_sound.play()
 	combo = 0
 	sprite.play("attack1")
 	animations.play("attack1")
@@ -44,6 +46,7 @@ func Update(_delta: float):
 	
 #	If in combo buffer phase check for more attack inputs
 	if current_phase == phase.combo_buffer and Input.is_action_just_pressed("click"):
+		attack_1_sound.play()
 		if combo == 1:
 			current_phase = phase.attack2
 			attack_2.start()

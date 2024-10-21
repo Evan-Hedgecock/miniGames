@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwdtnkjnay54d"]
+
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_qtuem"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eenxe"]
+size = Vector2(16, 16)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_qtuem")
+
+[node name="Heart" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_eenxe")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[node name="Booster" type="Polygon2D" parent="."]
+unique_name_in_owner = true
+visible = false
+color = Color(0.95, 0.506667, 0, 1)
+polygon = PackedVector2Array(-8, 8, 0, 16, 8, 8)
